@@ -38,7 +38,7 @@ class PassengerTest {
 
         passenger.setLastName(lastName);
 
-        assertEquals(lastName, passenger.getLastName());
+        assertEquals("das", passenger.getLastName());
     }
 
     @Test
