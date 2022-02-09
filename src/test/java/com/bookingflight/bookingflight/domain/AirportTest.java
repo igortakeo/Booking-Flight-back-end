@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import javax.persistence.GeneratedValue;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -99,6 +101,34 @@ class AirportTest {
         for(int i=0; i<airlineListReturn.size(); i++){
             Airline airline = airlineListReturn.get(i);
             assertEquals(airline, airlineListReturn.get(i));
+        }
+    }
+
+    @Test
+    void getFlights() {
+        final Flight flight1 = new Flight(
+                null,
+                "Sao Paulo",
+                "Rio de Janeiro",
+                LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)
+        );
+
+        final Flight flight2 = new Flight(
+                null,
+                "Sao Paulo",
+                "Belo Horizonte",
+                LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)
+        );
+
+        final List<Flight>flightList = new ArrayList<>(Arrays.asList(flight1, flight2));
+
+        airport.setFlights(flightList);
+
+        List<Flight>flightListReturn = airport.getFlights();
+
+        for(int i=0; i<flightListReturn.size(); i++){
+            Flight flight = flightListReturn.get(i);
+            assertEquals(flight, flightListReturn.get(i));
         }
     }
 }

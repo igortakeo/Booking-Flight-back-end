@@ -34,6 +34,9 @@ public class Airport {
                     foreignKey = @ForeignKey(name="fk_airport_airline_airline"))})
     private List<Airline> airlines;
 
+    @OneToMany(mappedBy = "airport")
+    private List<Flight> flights;
+
     public Airport() {
     }
 
@@ -100,6 +103,14 @@ public class Airport {
 
     public void setAirlines(List<Airline> airlines) {
         this.airlines = airlines;
+    }
+
+    public List<Flight> getFlights() {
+        return flights;
+    }
+
+    public void setFlights(List<Flight> flights) {
+        this.flights = flights;
     }
 
     @Override
