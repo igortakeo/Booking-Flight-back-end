@@ -26,6 +26,9 @@ public class Airline {
     @ManyToMany(mappedBy = "airlines")
     private List<Airport> airports;
 
+    @OneToMany(mappedBy = "airline")
+    private List<Airplane> airplanes;
+
     public Airline() {
     }
 
@@ -83,6 +86,14 @@ public class Airline {
 
     public void setAirports(List<Airport> airports) {
         this.airports = airports;
+    }
+
+    public List<Airplane> getAirplanes() {
+        return airplanes;
+    }
+
+    public void setAirplanes(List<Airplane> airplanes) {
+        this.airplanes = airplanes;
     }
 
     @Override
