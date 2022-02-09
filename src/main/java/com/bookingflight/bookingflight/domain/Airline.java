@@ -1,9 +1,7 @@
 package com.bookingflight.bookingflight.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "airline", schema = "public")
@@ -24,6 +22,9 @@ public class Airline {
 
     @Column(name = "telephone", length = 20)
     private String telephone;
+
+    @ManyToMany(mappedBy = "airlines")
+    private List<Airport> airports;
 
     public Airline() {
     }
@@ -74,6 +75,14 @@ public class Airline {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public List<Airport> getAirports() {
+        return airports;
+    }
+
+    public void setAirports(List<Airport> airports) {
+        this.airports = airports;
     }
 
     @Override

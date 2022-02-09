@@ -1,6 +1,7 @@
 package com.bookingflight.bookingflight.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "airport", schema = "public")
@@ -24,6 +25,14 @@ public class Airport {
 
     @Column(name = "city", length = 50)
     private String city;
+
+    @ManyToMany
+    @JoinTable(name = "airport_airline",
+            joinColumns = { @JoinColumn(name = "airport_id",
+                    foreignKey = @ForeignKey(name = "fk_airport_airline_airport")) },
+            inverseJoinColumns = { @JoinColumn(name = "airline_code",
+                    foreignKey = @ForeignKey(name="fk_airport_airline_airline"))})
+    private List<Airline> airlines;
 
     public Airport() {
     }
@@ -83,6 +92,14 @@ public class Airport {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public List<Airline> getAirlines() {
+        return airlines;
+    }
+
+    public void setAirlines(List<Airline> airlines) {
+        this.airlines = airlines;
     }
 
     @Override
