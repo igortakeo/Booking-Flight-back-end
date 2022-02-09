@@ -3,7 +3,7 @@ package com.bookingflight.bookingflight.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "airport", schema = "bookingflight")
+@Table(name = "airport", schema = "public")
 public class Airport {
 
     @Id
@@ -83,21 +83,6 @@ public class Airport {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Airport airport = (Airport) o;
-
-        return id != null ? id.equals(airport.id) : airport.id == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 
     @Override

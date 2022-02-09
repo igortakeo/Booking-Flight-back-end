@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "airline", schema = "bookingflight")
+@Table(name = "airline", schema = "public")
 public class Airline {
 
     @Id
