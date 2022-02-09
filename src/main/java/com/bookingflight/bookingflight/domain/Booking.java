@@ -25,7 +25,9 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(String classFlight) {
+    public Booking(Passenger passenger, Flight flight, String classFlight) {
+        this.passenger = passenger;
+        this.flight = flight;
         this.classFlight = classFlight;
     }
 

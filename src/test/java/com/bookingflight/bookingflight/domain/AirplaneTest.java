@@ -85,7 +85,7 @@ class AirplaneTest {
 
         for(int i=0; i<flightListReturn.size(); i++){
             Flight flight = flightListReturn.get(i);
-            assertEquals(flight, flightListReturn.get(i));
+            assertEquals(flightList.get(i), flight);
         }
     }
 }
