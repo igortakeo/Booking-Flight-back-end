@@ -5,6 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import javax.persistence.GeneratedValue;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AirportTest {
@@ -68,5 +72,33 @@ class AirportTest {
         airport.setCity(city);
 
         assertEquals(city, airport.getCity());
+    }
+
+    @Test
+    void getAirlines() {
+        final Airline airlineTest1 = new Airline(
+                "codeTest1",
+                "airlline1",
+                30,
+                "emailTest1",
+                "telephoneTest1");
+
+        final Airline airlineTest2 = new Airline(
+                "codeTest2",
+                "airlline2",
+                50,
+                "emailTest2",
+                "telephoneTest2");
+
+        final List<Airline> airlineList = new ArrayList<>(Arrays.asList(airlineTest1, airlineTest2));
+
+        airport.setAirlines(airlineList);
+
+        List<Airline> airlineListReturn = airport.getAirlines();
+
+        for(int i=0; i<airlineListReturn.size(); i++){
+            Airline airline = airlineListReturn.get(i);
+            assertEquals(airline, airlineListReturn.get(i));
+        }
     }
 }
