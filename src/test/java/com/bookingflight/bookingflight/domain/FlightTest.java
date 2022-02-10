@@ -101,16 +101,32 @@ class FlightTest {
                 "telephoneTest"
         );
 
+        final ClassFlight classFlight1 = new ClassFlight(
+                ClassTravelEnum.FIRST_CLASS,
+                new BigDecimal("550.00"),
+                this.flight
+        );
+
+        final ClassFlight classFlight2 = new ClassFlight(
+                ClassTravelEnum.BUSINESS,
+                new BigDecimal("250.00"),
+                this.flight
+        );
+
         final Booking booking1 = new Booking(
                 passenger,
                 this.flight,
-                ClassTravelEnum.FIRST_CLASS
+                ClassTravelEnum.FIRST_CLASS,
+                91,
+                classFlight1
         );
 
         final Booking booking2 = new Booking(
                 passenger,
                 this.flight,
-                ClassTravelEnum.BUSINESS
+                ClassTravelEnum.BUSINESS,
+                21,
+                classFlight2
         );
 
         final List<Booking> bookingList = new ArrayList<>(Arrays.asList(booking1, booking2));

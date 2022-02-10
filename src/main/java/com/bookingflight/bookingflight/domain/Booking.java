@@ -35,10 +35,12 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(Passenger passenger, Flight flight, ClassTravelEnum classFlight) {
+    public Booking(Passenger passenger, Flight flight, ClassTravelEnum classTravel, Integer seat, ClassFlight classFlight) {
         this.passenger = passenger;
         this.flight = flight;
-        this.classTravel = classFlight;
+        this.classTravel = classTravel;
+        this.seat = seat;
+        this.classFlight = classFlight;
     }
 
     public Passenger getPassenger() {

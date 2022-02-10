@@ -6,11 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ClassFlightTest {
 
@@ -72,10 +69,18 @@ class ClassFlightTest {
                 LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)
         );
 
+        final ClassFlight classFlight = new ClassFlight(
+                ClassTravelEnum.FIRST_CLASS,
+                new BigDecimal("550.00"),
+                flight
+        );
+
         final Booking booking = new Booking(
                 passenger,
                 flight,
-                ClassTravelEnum.FIRST_CLASS
+                ClassTravelEnum.FIRST_CLASS,
+                65,
+                classFlight
         );
 
         classFlight.setBooking(booking);
