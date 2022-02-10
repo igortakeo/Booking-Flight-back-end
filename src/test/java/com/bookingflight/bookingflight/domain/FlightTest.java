@@ -2,9 +2,13 @@ package com.bookingflight.bookingflight.domain;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -80,5 +84,44 @@ class FlightTest {
         flight.setDate(date);
 
         assertEquals(date, flight.getDate());
+    }
+
+    @Test
+    void getBookings() {
+        this.flight.setSource("Sao Paulo");
+        this.flight.setTarget("Rio de Janeiro");
+        this.flight.setDate(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
+
+        final Passenger passenger = new Passenger(
+                "95466724084",
+                "nameTest",
+                "lastNameTest",
+                22,
+                "emailTest",
+                "telephoneTest"
+        );
+
+        final Booking booking1 = new Booking(
+                passenger,
+                this.flight,
+                ClassFlightEnum.FIRST_CLASS
+        );
+
+        final Booking booking2 = new Booking(
+                passenger,
+                this.flight,
+                ClassFlightEnum.BUSINESS
+        );
+
+        final List<Booking> bookingList = new ArrayList<>(Arrays.asList(booking1, booking2));
+
+        flight.setBookings(bookingList);
+
+        List<Booking> bookingListReturn = flight.getBookings();
+
+        for(int i=0; i<bookingListReturn.size(); i++){
+            Booking booking = bookingListReturn.get(i);
+            assertEquals(bookingList.get(i), booking);
+        }
     }
 }

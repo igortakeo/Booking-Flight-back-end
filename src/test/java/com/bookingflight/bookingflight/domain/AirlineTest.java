@@ -89,7 +89,7 @@ public class AirlineTest {
 
         for(int i=0; i<airportListReturn.size(); i++){
             Airport airport = airportListReturn.get(i);
-            assertEquals(airport, airportList.get(i));
+            assertEquals(airportList.get(i), airport);
         }
     }
 
@@ -106,7 +106,7 @@ public class AirlineTest {
 
         for(int i=0; i<airplaneListReturn.size(); i++){
             Airplane airplane = airplaneListReturn.get(i);
-            assertEquals(airplane, airplaneListReturn.get(i));
+            assertEquals(airplaneList.get(i), airplane);
         }
     }
 }

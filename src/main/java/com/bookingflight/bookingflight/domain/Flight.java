@@ -2,6 +2,7 @@ package com.bookingflight.bookingflight.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "flight", schema = "public")
@@ -29,6 +30,9 @@ public class Flight {
 
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
+
+    @OneToMany(mappedBy = "flight")
+    private List<Booking> bookings;
 
     public Flight() {
     }
@@ -86,6 +90,14 @@ public class Flight {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 
     @Override

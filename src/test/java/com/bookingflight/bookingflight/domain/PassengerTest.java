@@ -3,6 +3,12 @@ package com.bookingflight.bookingflight.domain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PassengerTest {
@@ -11,7 +17,15 @@ class PassengerTest {
 
     @BeforeEach
     public void setUp(){
-        this.passenger = new Passenger();
+
+        this.passenger = new Passenger(
+                "95466724084",
+                "nameTest",
+                "lastNameTest",
+                22,
+                "emailTest",
+                "telephoneTest"
+        );
     }
 
     @Test
@@ -66,5 +80,39 @@ class PassengerTest {
         passenger.setTelephone(telephone);
 
         assertEquals(telephone, passenger.getTelephone());
+    }
+
+    @Test
+    void getBookings() {
+        final Flight flight = new Flight(
+                null,
+                "sourceTest",
+                "targetTest",
+                LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)
+        );
+
+        final Booking booking1 = new Booking(
+                this.passenger,
+                flight,
+                ClassFlightEnum.FIRST_CLASS
+        );
+
+        final Booking booking2 = new Booking(
+                this.passenger,
+                flight,
+                ClassFlightEnum.BUSINESS
+        );
+
+        final List<Booking> bookingList = new ArrayList<>(Arrays.asList(booking1, booking2));
+
+        passenger.setBookings(bookingList);
+
+        List<Booking> bookingListReturn = passenger.getBookings();
+
+        for(int i=0; i<bookingListReturn.size(); i++){
+            Booking booking = bookingListReturn.get(i);
+            System.out.println(booking);
+            assertEquals(bookingList.get(i), booking);
+        }
     }
 }
