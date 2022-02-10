@@ -84,7 +84,6 @@ class PassengerTest {
 
     @Test
     void getBookings() {
-
         final Flight flight = new Flight(
                 null,
                 "sourceTest",
@@ -95,13 +94,13 @@ class PassengerTest {
         final Booking booking1 = new Booking(
                 this.passenger,
                 flight,
-                "First Class"
+                ClassFlightEnum.FIRST_CLASS
         );
 
         final Booking booking2 = new Booking(
                 this.passenger,
                 flight,
-                "Second Class"
+                ClassFlightEnum.BUSINESS
         );
 
         final List<Booking> bookingList = new ArrayList<>(Arrays.asList(booking1, booking2));
@@ -112,6 +111,7 @@ class PassengerTest {
 
         for(int i=0; i<bookingListReturn.size(); i++){
             Booking booking = bookingListReturn.get(i);
+            System.out.println(booking);
             assertEquals(bookingList.get(i), booking);
         }
     }

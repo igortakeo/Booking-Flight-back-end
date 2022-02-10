@@ -20,12 +20,12 @@ public class Booking {
     private Flight flight;
 
     @Column(name = "class_flight", nullable = false, length = 20)
-    private String classFlight;
+    private ClassFlightEnum classFlight;
 
     public Booking() {
     }
 
-    public Booking(Passenger passenger, Flight flight, String classFlight) {
+    public Booking(Passenger passenger, Flight flight, ClassFlightEnum classFlight) {
         this.passenger = passenger;
         this.flight = flight;
         this.classFlight = classFlight;
@@ -47,11 +47,11 @@ public class Booking {
         this.flight = flight;
     }
 
-    public String getClassFlight() {
+    public ClassFlightEnum getClassFlight() {
         return classFlight;
     }
 
-    public void setClassFlight(String classFlight) {
+    public void setClassFlight(ClassFlightEnum classFlight) {
         this.classFlight = classFlight;
     }
 
