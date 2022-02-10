@@ -1,5 +1,6 @@
 package com.bookingflight.bookingflight.domain;
 
+import io.swagger.models.auth.In;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -48,11 +49,20 @@ class BookingTest {
     }
 
     @Test
-    void getClassFlight() {
-        final ClassTravelEnum classFlight = ClassTravelEnum.ECONOMY;
+    void getClassTravel() {
+        final ClassTravelEnum classTravel = ClassTravelEnum.BUSINESS;
 
-        booking.setClassFlight(classFlight);
+        booking.setClassTravel(classTravel);
 
-        assertEquals(classFlight, booking.getClassFlight());
+        assertEquals(classTravel, booking.getClassTravel());
+    }
+
+    @Test
+    void getSeat() {
+        final Integer seat = 98;
+
+        booking.setSeat(seat);
+
+        assertEquals(seat, booking.getSeat());
     }
 }

@@ -57,14 +57,6 @@ public class Booking {
         this.flight = flight;
     }
 
-    public ClassTravelEnum getClassFlight() {
-        return classTravel;
-    }
-
-    public void setClassFlight(ClassTravelEnum classFlight) {
-        this.classTravel = classFlight;
-    }
-
     public ClassTravelEnum getClassTravel() {
         return classTravel;
     }
@@ -79,10 +71,6 @@ public class Booking {
 
     public void setSeat(Integer seat) {
         this.seat = seat;
-    }
-
-    public void setClassFlight(ClassFlight classFlight) {
-        this.classFlight = classFlight;
     }
 
     @Override

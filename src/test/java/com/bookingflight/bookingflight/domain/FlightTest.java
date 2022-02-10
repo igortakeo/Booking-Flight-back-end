@@ -3,6 +3,7 @@ package com.bookingflight.bookingflight.domain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -121,6 +122,32 @@ class FlightTest {
         for(int i=0; i<bookingListReturn.size(); i++){
             Booking booking = bookingListReturn.get(i);
             assertEquals(bookingList.get(i), booking);
+        }
+    }
+
+    @Test
+    void getClassFlights() {
+        final ClassFlight classFlight1 = new ClassFlight(
+                ClassTravelEnum.FIRST_CLASS,
+                new BigDecimal("560.00"),
+                this.flight
+        );
+
+        final ClassFlight classFlight2 = new ClassFlight(
+                ClassTravelEnum.ECONOMY,
+                new BigDecimal("120.00"),
+                this.flight
+        );
+
+        final List<ClassFlight> classFlights = new ArrayList<>(Arrays.asList(classFlight1, classFlight2));
+
+        flight.setClassFlights(classFlights);
+
+        List<ClassFlight> classFlightsReturn = flight.getClassFlights();
+
+        for(int i=0; i<classFlightsReturn.size(); i++){
+            ClassFlight classFlight  = classFlightsReturn.get(i);
+            assertEquals(classFlights.get(i), classFlight);
         }
     }
 }
