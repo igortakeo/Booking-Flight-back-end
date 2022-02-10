@@ -19,7 +19,7 @@ public class Booking {
         foreignKey = @ForeignKey(name = "fk_booking_flight"))
     private Flight flight;
 
-    @Column(name = "class_travel", nullable = false, length = 20)
+    @Column(name = "class_travel", nullable = false)
     private ClassTravelEnum classTravel;
 
     @Column(name = "seat", nullable = false)
