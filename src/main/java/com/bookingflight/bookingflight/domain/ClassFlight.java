@@ -2,10 +2,10 @@ package com.bookingflight.bookingflight.domain;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Table(name = "class_flight", schema = "public")
+@IdClass(ClassFlightId.class)
 public class ClassFlight {
 
     @Id
@@ -15,21 +15,22 @@ public class ClassFlight {
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @ManyToMany
-    @JoinTable(name = "class_flight_flight",
-        joinColumns = { @JoinColumn(name = "class_travel_id", referencedColumnName = "class_travel",
-            foreignKey = @ForeignKey(name = "fk_class_flight_flight_class_flight"))},
-        inverseJoinColumns = { @JoinColumn(name = "flight_id", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "fk_class_flight_flight_flight"))})
-    private List<Flight>flights;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "flight_id", nullable = false,
+        foreignKey = @ForeignKey(name = "fk_class_flight_flight"))
+    private Flight flight;
+
+    @OneToOne(mappedBy = "classFlight")
+    private Booking booking;
 
     public ClassFlight() {
     }
 
-    public ClassFlight(ClassTravelEnum classTravel, BigDecimal price, List<Flight> flights) {
+    public ClassFlight(ClassTravelEnum classTravel, BigDecimal price, Flight flight) {
         this.classTravel = classTravel;
         this.price = price;
-        this.flights = flights;
+        this.flight = flight;
     }
 
     public ClassTravelEnum getClassTravel() {
@@ -48,12 +49,20 @@ public class ClassFlight {
         this.price = price;
     }
 
-    public List<Flight> getFlights() {
-        return flights;
+    public Flight getFlight() {
+        return flight;
     }
 
-    public void setFlights(List<Flight> flights) {
-        this.flights = flights;
+    public void setFlight(Flight flights) {
+        this.flight = flights;
+    }
+
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
     }
 
     @Override
@@ -61,7 +70,8 @@ public class ClassFlight {
         return "ClassFlight{" +
                 "classTravel=" + classTravel +
                 ", price=" + price +
-                ", flights=" + flights +
+                ", flights=" + flight +
+                ", booking=" + booking +
                 '}';
     }
 }

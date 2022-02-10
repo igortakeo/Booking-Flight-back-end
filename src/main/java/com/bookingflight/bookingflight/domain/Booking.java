@@ -25,6 +25,13 @@ public class Booking {
     @Column(name = "seat", nullable = false)
     private Integer seat;
 
+    @OneToOne
+    @JoinColumns(value = {
+            @JoinColumn(name = "flight_id", referencedColumnName = "flight_id", insertable = false, updatable = false),
+            @JoinColumn(name = "class_travel", referencedColumnName = "class_travel", insertable = false, updatable = false)
+    }, foreignKey = @ForeignKey(name = "fk_booking_class_flight"))
+    private ClassFlight classFlight;
+
     public Booking() {
     }
 
@@ -58,6 +65,26 @@ public class Booking {
         this.classTravel = classFlight;
     }
 
+    public ClassTravelEnum getClassTravel() {
+        return classTravel;
+    }
+
+    public void setClassTravel(ClassTravelEnum classTravel) {
+        this.classTravel = classTravel;
+    }
+
+    public Integer getSeat() {
+        return seat;
+    }
+
+    public void setSeat(Integer seat) {
+        this.seat = seat;
+    }
+
+    public void setClassFlight(ClassFlight classFlight) {
+        this.classFlight = classFlight;
+    }
+
     @Override
     public String toString() {
         return "Booking{" +
@@ -65,6 +92,7 @@ public class Booking {
                 ", flight=" + flight +
                 ", classTravel=" + classTravel +
                 ", seat=" + seat +
+                ", classFlight=" + classFlight +
                 '}';
     }
 }

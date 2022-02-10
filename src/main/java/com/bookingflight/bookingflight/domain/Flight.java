@@ -34,7 +34,7 @@ public class Flight {
     @OneToMany(mappedBy = "flight")
     private List<Booking> bookings;
 
-    @ManyToMany(mappedBy = "flights")
+    @OneToMany(mappedBy = "flight")
     private List<ClassFlight> classFlights;
 
     public Flight() {
