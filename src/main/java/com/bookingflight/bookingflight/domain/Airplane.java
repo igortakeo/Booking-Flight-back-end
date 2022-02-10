@@ -81,6 +81,7 @@ public class Airplane {
                 ", name='" + name + '\'' +
                 ", maximumNumberPassengers=" + maximumNumberPassengers +
                 ", airline=" + airline +
+                ", flights=" + flights +
                 '}';
     }
 

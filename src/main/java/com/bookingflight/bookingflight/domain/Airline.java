@@ -104,6 +104,8 @@ public class Airline {
                 ", numberPlanes=" + numberPlanes +
                 ", email='" + email + '\'' +
                 ", telephone='" + telephone + '\'' +
+                ", airports=" + airports +
+                ", airplanes=" + airplanes +
                 '}';
     }
 }

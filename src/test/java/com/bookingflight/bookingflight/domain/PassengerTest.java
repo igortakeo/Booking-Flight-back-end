@@ -94,13 +94,13 @@ class PassengerTest {
         final Booking booking1 = new Booking(
                 this.passenger,
                 flight,
-                ClassFlightEnum.FIRST_CLASS
+                ClassTravelEnum.FIRST_CLASS
         );
 
         final Booking booking2 = new Booking(
                 this.passenger,
                 flight,
-                ClassFlightEnum.BUSINESS
+                ClassTravelEnum.BUSINESS
         );
 
         final List<Booking> bookingList = new ArrayList<>(Arrays.asList(booking1, booking2));

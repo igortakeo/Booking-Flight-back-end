@@ -34,6 +34,9 @@ public class Flight {
     @OneToMany(mappedBy = "flight")
     private List<Booking> bookings;
 
+    @OneToMany(mappedBy = "flight")
+    private List<ClassFlight> classFlights;
+
     public Flight() {
     }
 
@@ -100,6 +103,14 @@ public class Flight {
         this.bookings = bookings;
     }
 
+    public List<ClassFlight> getClassFlights() {
+        return classFlights;
+    }
+
+    public void setClassFlights(List<ClassFlight> classFlights) {
+        this.classFlights = classFlights;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -124,6 +135,8 @@ public class Flight {
                 ", source='" + source + '\'' +
                 ", target='" + target + '\'' +
                 ", date=" + date +
+                ", bookings=" + bookings +
+                ", classFlights=" + classFlights +
                 '}';
     }
 }

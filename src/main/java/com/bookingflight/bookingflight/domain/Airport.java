@@ -137,6 +137,8 @@ public class Airport {
                 ", number=" + number +
                 ", cep='" + cep + '\'' +
                 ", city='" + city + '\'' +
+                ", airlines=" + airlines +
+                ", flights=" + flights +
                 '}';
     }
 }

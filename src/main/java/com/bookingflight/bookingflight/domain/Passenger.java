@@ -105,6 +105,7 @@ public class Passenger {
                 ", age=" + age +
                 ", email='" + email + '\'' +
                 ", telephone='" + telephone + '\'' +
+                ", bookings=" + bookings +
                 '}';
     }
 }

@@ -19,16 +19,26 @@ public class Booking {
         foreignKey = @ForeignKey(name = "fk_booking_flight"))
     private Flight flight;
 
-    @Column(name = "class_flight", nullable = false, length = 20)
-    private ClassFlightEnum classFlight;
+    @Column(name = "class_travel", nullable = false)
+    private ClassTravelEnum classTravel;
+
+    @Column(name = "seat", nullable = false)
+    private Integer seat;
+
+    @OneToOne
+    @JoinColumns(value = {
+            @JoinColumn(name = "flight_id", referencedColumnName = "flight_id", insertable = false, updatable = false),
+            @JoinColumn(name = "class_travel", referencedColumnName = "class_travel", insertable = false, updatable = false)
+    }, foreignKey = @ForeignKey(name = "fk_booking_class_flight"))
+    private ClassFlight classFlight;
 
     public Booking() {
     }
 
-    public Booking(Passenger passenger, Flight flight, ClassFlightEnum classFlight) {
+    public Booking(Passenger passenger, Flight flight, ClassTravelEnum classFlight) {
         this.passenger = passenger;
         this.flight = flight;
-        this.classFlight = classFlight;
+        this.classTravel = classFlight;
     }
 
     public Passenger getPassenger() {
@@ -47,12 +57,20 @@ public class Booking {
         this.flight = flight;
     }
 
-    public ClassFlightEnum getClassFlight() {
-        return classFlight;
+    public ClassTravelEnum getClassTravel() {
+        return classTravel;
     }
 
-    public void setClassFlight(ClassFlightEnum classFlight) {
-        this.classFlight = classFlight;
+    public void setClassTravel(ClassTravelEnum classTravel) {
+        this.classTravel = classTravel;
+    }
+
+    public Integer getSeat() {
+        return seat;
+    }
+
+    public void setSeat(Integer seat) {
+        this.seat = seat;
     }
 
     @Override
@@ -60,7 +78,9 @@ public class Booking {
         return "Booking{" +
                 "passenger=" + passenger +
                 ", flight=" + flight +
-                ", classFlight='" + classFlight + '\'' +
+                ", classTravel=" + classTravel +
+                ", seat=" + seat +
+                ", classFlight=" + classFlight +
                 '}';
     }
 }

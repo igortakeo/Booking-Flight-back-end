@@ -2,8 +2,8 @@ package com.bookingflight.bookingflight.domain;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.core.parameters.P;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -104,13 +104,13 @@ class FlightTest {
         final Booking booking1 = new Booking(
                 passenger,
                 this.flight,
-                ClassFlightEnum.FIRST_CLASS
+                ClassTravelEnum.FIRST_CLASS
         );
 
         final Booking booking2 = new Booking(
                 passenger,
                 this.flight,
-                ClassFlightEnum.BUSINESS
+                ClassTravelEnum.BUSINESS
         );
 
         final List<Booking> bookingList = new ArrayList<>(Arrays.asList(booking1, booking2));
@@ -122,6 +122,32 @@ class FlightTest {
         for(int i=0; i<bookingListReturn.size(); i++){
             Booking booking = bookingListReturn.get(i);
             assertEquals(bookingList.get(i), booking);
+        }
+    }
+
+    @Test
+    void getClassFlights() {
+        final ClassFlight classFlight1 = new ClassFlight(
+                ClassTravelEnum.FIRST_CLASS,
+                new BigDecimal("560.00"),
+                this.flight
+        );
+
+        final ClassFlight classFlight2 = new ClassFlight(
+                ClassTravelEnum.ECONOMY,
+                new BigDecimal("120.00"),
+                this.flight
+        );
+
+        final List<ClassFlight> classFlights = new ArrayList<>(Arrays.asList(classFlight1, classFlight2));
+
+        flight.setClassFlights(classFlights);
+
+        List<ClassFlight> classFlightsReturn = flight.getClassFlights();
+
+        for(int i=0; i<classFlightsReturn.size(); i++){
+            ClassFlight classFlight  = classFlightsReturn.get(i);
+            assertEquals(classFlights.get(i), classFlight);
         }
     }
 }
