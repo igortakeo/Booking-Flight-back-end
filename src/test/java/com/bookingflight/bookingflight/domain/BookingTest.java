@@ -49,7 +49,7 @@ class BookingTest {
 
     @Test
     void getClassFlight() {
-        final ClassFlightEnum classFlight = ClassFlightEnum.ECONOMY;
+        final ClassTravelEnum classFlight = ClassTravelEnum.ECONOMY;
 
         booking.setClassFlight(classFlight);
 

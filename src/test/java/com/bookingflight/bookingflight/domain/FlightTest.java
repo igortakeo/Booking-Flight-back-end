@@ -2,7 +2,6 @@ package com.bookingflight.bookingflight.domain;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -104,13 +103,13 @@ class FlightTest {
         final Booking booking1 = new Booking(
                 passenger,
                 this.flight,
-                ClassFlightEnum.FIRST_CLASS
+                ClassTravelEnum.FIRST_CLASS
         );
 
         final Booking booking2 = new Booking(
                 passenger,
                 this.flight,
-                ClassFlightEnum.BUSINESS
+                ClassTravelEnum.BUSINESS
         );
 
         final List<Booking> bookingList = new ArrayList<>(Arrays.asList(booking1, booking2));

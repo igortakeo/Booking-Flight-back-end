@@ -19,16 +19,19 @@ public class Booking {
         foreignKey = @ForeignKey(name = "fk_booking_flight"))
     private Flight flight;
 
-    @Column(name = "class_flight", nullable = false, length = 20)
-    private ClassFlightEnum classFlight;
+    @Column(name = "class_travel", nullable = false, length = 20)
+    private ClassTravelEnum classTravel;
+
+    @Column(name = "seat", nullable = false)
+    private Integer seat;
 
     public Booking() {
     }
 
-    public Booking(Passenger passenger, Flight flight, ClassFlightEnum classFlight) {
+    public Booking(Passenger passenger, Flight flight, ClassTravelEnum classFlight) {
         this.passenger = passenger;
         this.flight = flight;
-        this.classFlight = classFlight;
+        this.classTravel = classFlight;
     }
 
     public Passenger getPassenger() {
@@ -47,12 +50,12 @@ public class Booking {
         this.flight = flight;
     }
 
-    public ClassFlightEnum getClassFlight() {
-        return classFlight;
+    public ClassTravelEnum getClassFlight() {
+        return classTravel;
     }
 
-    public void setClassFlight(ClassFlightEnum classFlight) {
-        this.classFlight = classFlight;
+    public void setClassFlight(ClassTravelEnum classFlight) {
+        this.classTravel = classFlight;
     }
 
     @Override
@@ -60,7 +63,8 @@ public class Booking {
         return "Booking{" +
                 "passenger=" + passenger +
                 ", flight=" + flight +
-                ", classFlight='" + classFlight + '\'' +
+                ", classTravel=" + classTravel +
+                ", seat=" + seat +
                 '}';
     }
 }

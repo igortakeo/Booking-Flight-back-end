@@ -1,6 +1,6 @@
 package com.bookingflight.bookingflight.domain;
 
-public enum ClassFlightEnum {
+public enum ClassTravelEnum {
 
     FIRST_CLASS,
 
