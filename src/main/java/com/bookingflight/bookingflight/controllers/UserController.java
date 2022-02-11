@@ -1,6 +1,6 @@
 package com.bookingflight.bookingflight.controllers;
 
-import com.bookingflight.bookingflight.controllers.dto.UserDto;
+import com.bookingflight.bookingflight.controllers.dto.UserResponseDto;
 import com.bookingflight.bookingflight.domain.User;
 import com.bookingflight.bookingflight.domain.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -28,25 +28,25 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDto> findById(@PathVariable Long id){
+    public ResponseEntity<UserResponseDto> findById(@PathVariable Long id){
         User user = userService.findById(id);
 
-        UserDto userDto = modelMapper.map(user, UserDto.class);
+        UserResponseDto userResponseDto = modelMapper.map(user, UserResponseDto.class);
 
-        return ResponseEntity.ok().body(userDto);
+        return ResponseEntity.ok().body(userResponseDto);
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> findAll(){
+    public ResponseEntity<List<UserResponseDto>> findAll(){
         List<User> users = userService.findAll();
 
-        List<UserDto> userDtos = new ArrayList<>();
+        List<UserResponseDto> userResponseDtos = new ArrayList<>();
 
         for(User user : users){
-            userDtos.add(modelMapper.map(user, UserDto.class));
+            userResponseDtos.add(modelMapper.map(user, UserResponseDto.class));
         }
 
-        return ResponseEntity.ok().body(userDtos);
+        return ResponseEntity.ok().body(userResponseDtos);
     }
 
     @PostMapping

@@ -1,6 +1,6 @@
 package com.bookingflight.bookingflight.controllers.dto;
 
-public class UserDto {
+public class UserResponseDto {
 
     private Long id;
 
