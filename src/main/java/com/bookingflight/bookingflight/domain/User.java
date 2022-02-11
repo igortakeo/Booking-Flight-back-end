@@ -1,9 +1,5 @@
 package com.bookingflight.bookingflight.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import net.bytebuddy.implementation.bind.annotation.Default;
-import org.springframework.boot.context.properties.bind.DefaultValue;
-
 import javax.persistence.*;
 
 @Entity
@@ -21,12 +17,17 @@ public class User {
     private String username;
 
     @Column(name = "password", nullable = false)
-    @JsonIgnore
     private String password;
 
-    private boolean isAdmin = true;
+    private boolean isAdmin = false;
 
     public User() {
+    }
+
+    public User(String name, String username, String password) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
     }
 
     public User(Long id, String name, String username, String password, boolean isAdmin) {
