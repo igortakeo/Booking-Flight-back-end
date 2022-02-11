@@ -33,7 +33,7 @@ public class AirlineTest {
 
         airline.setName(name);
 
-        assertEquals(name, airline.getName());
+        assertEquals("name", airline.getName());
     }
 
     @Test
