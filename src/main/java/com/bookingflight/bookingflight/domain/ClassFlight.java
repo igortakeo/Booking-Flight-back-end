@@ -2,6 +2,7 @@ package com.bookingflight.bookingflight.domain;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "class_flight", schema = "public")
@@ -21,8 +22,8 @@ public class ClassFlight {
         foreignKey = @ForeignKey(name = "fk_class_flight_flight"))
     private Flight flight;
 
-    @OneToOne(mappedBy = "classFlight")
-    private Booking booking;
+    @OneToMany(mappedBy = "classFlight")
+    private List<Booking> bookings;
 
     public ClassFlight() {
     }
@@ -57,12 +58,12 @@ public class ClassFlight {
         this.flight = flights;
     }
 
-    public Booking getBooking() {
-        return booking;
+    public List<Booking> getBookings() {
+        return bookings;
     }
 
-    public void setBooking(Booking booking) {
-        this.booking = booking;
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 
     @Override
@@ -71,7 +72,7 @@ public class ClassFlight {
                 "classTravel=" + classTravel +
                 ", price=" + price +
                 ", flights=" + flight +
-                ", booking=" + booking +
+                ", booking=" + bookings +
                 '}';
     }
 }

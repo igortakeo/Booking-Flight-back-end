@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -50,16 +53,24 @@ class ClassFlightTest {
         assertEquals(flight, classFlight.getFlight());
     }
 
-
     @Test
-    void getBooking() {
-        final Passenger passenger = new Passenger(
+    void getBookings() {
+        final Passenger passenger1 = new Passenger(
                 "44420130040",
                 "nameTest",
                 "lastNameTest",
                 22,
                 "email-teste@gmail.com",
                 "telephoneTest"
+        );
+
+        final Passenger passenger2 = new Passenger(
+                "54420130040",
+                "nameTest2",
+                "lastNameTest2",
+                23,
+                "email-teste2@gmail.com",
+                "telephoneTest2"
         );
 
         final Flight flight = new Flight(
@@ -69,22 +80,31 @@ class ClassFlightTest {
                 LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)
         );
 
-        final ClassFlight classFlight = new ClassFlight(
-                ClassTravelEnum.FIRST_CLASS,
-                new BigDecimal("550.00"),
-                flight
-        );
-
-        final Booking booking = new Booking(
-                passenger,
+        final Booking booking1 = new Booking(
+                passenger1,
                 flight,
                 ClassTravelEnum.FIRST_CLASS,
                 65,
-                classFlight
+                this.classFlight
         );
 
-        classFlight.setBooking(booking);
+        final Booking booking2 = new Booking(
+                passenger2,
+                flight,
+                ClassTravelEnum.ECONOMY,
+                25,
+                this.classFlight
+        );
 
-        assertEquals(booking, classFlight.getBooking());
+        final List<Booking> bookingList = new ArrayList<>(Arrays.asList(booking1, booking2));
+
+        classFlight.setBookings(bookingList);
+
+        List<Booking> bookingListReturn = classFlight.getBookings();
+
+        for(int i=0; i<bookingListReturn.size(); i++){
+            Booking booking = bookingListReturn.get(i);
+            assertEquals(bookingList.get(i), booking);
+        }
     }
 }

@@ -25,7 +25,7 @@ public class Booking {
     @Column(name = "seat", nullable = false)
     private Integer seat;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumns(value = {
             @JoinColumn(name = "flight_id", referencedColumnName = "flight_id", insertable = false, updatable = false),
             @JoinColumn(name = "class_travel", referencedColumnName = "class_travel", insertable = false, updatable = false)
