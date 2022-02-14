@@ -3,6 +3,7 @@ package com.bookingflight.bookingflight.controllers;
 import com.bookingflight.bookingflight.domain.Airline;
 import com.bookingflight.bookingflight.domain.services.AirlineService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -40,4 +41,19 @@ public class AirlineController {
 
         return ResponseEntity.created(endpoint).build();
     }
+
+    @PutMapping(value = "/{code}")
+    public ResponseEntity<Airline> update(@PathVariable String code, @RequestBody Airline obj){
+        Airline newAirline = airlineService.update(code, obj);
+
+        return ResponseEntity.ok().body(newAirline);
+    }
+
+    @DeleteMapping(value = "/{code}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> delete(@PathVariable String code){
+        airlineService.delete(code);
+        return ResponseEntity.noContent().build();
+    }
+
 }

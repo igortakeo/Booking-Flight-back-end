@@ -21,7 +21,7 @@ public class AirlineService {
     public Airline findByCode(String code) {
         Optional<Airline> obj = airlineRepository.findByCode(code);
 
-        return obj.orElseThrow(() -> new ObjectNotFoundException("Object not found with Code = " + code));
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Object not found with code = " + code));
     }
 
     public List<Airline> findAll(){
@@ -36,5 +36,22 @@ public class AirlineService {
         }
 
         return airlineRepository.save(obj);
+    }
+
+    public Airline update(String code, Airline obj) {
+        Airline newAirline = findByCode(code);
+
+        newAirline.setCode(obj.getCode());
+        newAirline.setName(obj. getName());
+        newAirline.setNumberPlanes(obj.getNumberPlanes());
+        newAirline.setEmail(obj.getEmail());
+        newAirline.setTelephone(obj.getTelephone());
+
+        return airlineRepository.save(newAirline);
+    }
+
+    public void delete(String code) {
+        findByCode(code);
+        airlineRepository.deleteByCode(code);
     }
 }
