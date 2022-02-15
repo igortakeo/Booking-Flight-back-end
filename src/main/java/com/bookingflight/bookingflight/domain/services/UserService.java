@@ -34,7 +34,7 @@ public class UserService {
         User user = userRepository.findByUsername(obj.getUsername());
 
         if(user != null){
-            throw new ObjectAlreadyExistException("Object already exist");
+            throw new ObjectAlreadyExistException("Object already exist (change username)");
         }
 
         obj.setId(null);
