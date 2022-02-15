@@ -35,7 +35,24 @@ public class AirportService {
             throw new ObjectAlreadyExistException("Object already exist (change name)");
         }
 
-        airport.setId(null);
+        obj.setId(null);
+        return airportRepository.save(obj);
+    }
+
+    public Airport update(Long id, Airport obj) {
+        Airport airport = findById(id);
+
+        airport.setName(obj.getName());
+        airport.setStreet(obj.getStreet());
+        airport.setNumber(obj.getNumber());
+        airport.setCep(obj.getCep());
+        airport.setCity(obj.getCity());
+
         return airportRepository.save(airport);
+    }
+
+    public void delete(Long id) {
+        findById(id);
+        airportRepository.deleteById(id);
     }
 }
