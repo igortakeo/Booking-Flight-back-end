@@ -1,6 +1,6 @@
 package com.bookingflight.bookingflight.controllers.dto;
 
-public class AirlineAirportResponseDto {
+public class AirlineWithoutListResponseDto {
 
     private String code;
 

@@ -4,6 +4,7 @@ import com.bookingflight.bookingflight.domain.Airline;
 import com.bookingflight.bookingflight.domain.Airport;
 import com.bookingflight.bookingflight.domain.services.exceptions.ObjectAlreadyExistException;
 import com.bookingflight.bookingflight.domain.services.exceptions.ObjectNotFoundException;
+import com.bookingflight.bookingflight.repositories.AirlineRepository;
 import com.bookingflight.bookingflight.repositories.AirportRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,11 @@ public class AirportService {
 
     private final AirportRepository airportRepository;
 
-    public AirportService(AirportRepository airportRepository) {
+    private final AirlineRepository airlineRepository;
+
+    public AirportService(AirportRepository airportRepository, AirlineRepository airlineRepository) {
         this.airportRepository = airportRepository;
+        this.airlineRepository = airlineRepository;
     }
 
     public Airport findById(Long id) {
@@ -68,9 +72,20 @@ public class AirportService {
         return airport.getAirlines();
     }
 
-    public Airport addAirline(Long id, Airline obj) {
+    public Airport addAirline(Long id, String code) {
         Airport airport = findById(id);
-        airport.getAirlines().add(obj);
+
+        Optional<Airline> airline = airlineRepository.findByCode(code);
+
+        if(!airline.isPresent()){
+            throw new ObjectNotFoundException("Object not found");
+        }
+
+        if(airport.getAirlines().contains(airline.get())){
+            throw new ObjectAlreadyExistException("Object already exist in list");
+        }
+
+        airport.getAirlines().add(airline.get());
 
         return airportRepository.save(airport);
     }

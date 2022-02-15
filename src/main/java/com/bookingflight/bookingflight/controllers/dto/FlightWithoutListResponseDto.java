@@ -2,7 +2,7 @@ package com.bookingflight.bookingflight.controllers.dto;
 
 import java.time.LocalDateTime;
 
-public class FlightAirportResponseDto {
+public class FlightWithoutListResponseDto {
 
     private Long id;
 

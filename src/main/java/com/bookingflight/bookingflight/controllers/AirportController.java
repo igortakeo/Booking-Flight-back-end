@@ -1,6 +1,6 @@
 package com.bookingflight.bookingflight.controllers;
 
-import com.bookingflight.bookingflight.controllers.dto.AirlineAirportResponseDto;
+import com.bookingflight.bookingflight.controllers.dto.AirlineWithoutListResponseDto;
 import com.bookingflight.bookingflight.controllers.dto.AirportResponseDto;
 import com.bookingflight.bookingflight.domain.Airline;
 import com.bookingflight.bookingflight.domain.Airport;
@@ -51,13 +51,13 @@ public class AirportController {
     }
 
     @GetMapping(value = "/{id}/airlines")
-    public ResponseEntity<List<AirlineAirportResponseDto>> findAirlines(@PathVariable Long id){
+    public ResponseEntity<List<AirlineWithoutListResponseDto>> findAirlines(@PathVariable Long id){
         List<Airline> airlines = airportService.findAirlines(id);
 
-        List<AirlineAirportResponseDto> airlineAirportResponseDtoList = new ArrayList<>();
+        List<AirlineWithoutListResponseDto> airlineAirportResponseDtoList = new ArrayList<>();
 
         for(Airline airline : airlines){
-            airlineAirportResponseDtoList.add((modelMapper.map(airline, AirlineAirportResponseDto.class)));
+            airlineAirportResponseDtoList.add((modelMapper.map(airline, AirlineWithoutListResponseDto.class)));
         }
 
         return ResponseEntity.ok().body(airlineAirportResponseDtoList);
@@ -71,9 +71,9 @@ public class AirportController {
         return ResponseEntity.created(endpoint).build();
     }
 
-    @PostMapping(value = "/{id}/airlines")
-    public ResponseEntity<Airport> addAirline(@PathVariable Long id, @RequestBody Airline obj){
-        Airport airport = airportService.addAirline(id, obj);
+    @PostMapping(value = "/{id}/airlines/{code}")
+    public ResponseEntity<Airport> addAirline(@PathVariable Long id, @PathVariable String code){
+        Airport airport = airportService.addAirline(id, code);
         URI endpoint = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}/airlines").buildAndExpand(airport.getId()).toUri();
 
         return ResponseEntity.created(endpoint).build();

@@ -1,8 +1,6 @@
 package com.bookingflight.bookingflight.controllers.dto;
 
-import java.util.List;
-
-public class AirportResponseDto {
+public class AirportWithoutListResponseDto {
 
     private Long id;
 
@@ -15,10 +13,6 @@ public class AirportResponseDto {
     private String cep;
 
     private String city;
-
-    private List<AirlineWithoutListResponseDto> airlines;
-
-    private List<FlightWithoutListResponseDto> flights;
 
     public Long getId() {
         return id;
@@ -66,21 +60,5 @@ public class AirportResponseDto {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public List<AirlineWithoutListResponseDto> getAirlines() {
-        return airlines;
-    }
-
-    public void setAirlines(List<AirlineWithoutListResponseDto> airlines) {
-        this.airlines = airlines;
-    }
-
-    public List<FlightWithoutListResponseDto> getFlights() {
-        return flights;
-    }
-
-    public void setFlights(List<FlightWithoutListResponseDto> flights) {
-        this.flights = flights;
     }
 }
