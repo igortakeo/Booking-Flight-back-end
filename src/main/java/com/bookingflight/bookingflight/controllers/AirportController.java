@@ -1,13 +1,18 @@
 package com.bookingflight.bookingflight.controllers;
 
+import com.bookingflight.bookingflight.controllers.dto.AirlineAirportResponseDto;
+import com.bookingflight.bookingflight.controllers.dto.AirportResponseDto;
+import com.bookingflight.bookingflight.domain.Airline;
 import com.bookingflight.bookingflight.domain.Airport;
 import com.bookingflight.bookingflight.domain.services.AirportService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,22 +21,46 @@ public class AirportController {
 
     private final AirportService airportService;
 
-    public AirportController(AirportService airportService) {
+    private final ModelMapper modelMapper;
+
+    public AirportController(AirportService airportService, ModelMapper modelMapper) {
         this.airportService = airportService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Airport> findById(@PathVariable Long id){
+    public ResponseEntity<AirportResponseDto> findById(@PathVariable Long id){
         Airport airport = airportService.findById(id);
 
-        return ResponseEntity.ok().body(airport);
+        AirportResponseDto airportResponseDto = modelMapper.map(airport, AirportResponseDto.class);
+
+        return ResponseEntity.ok().body(airportResponseDto);
     }
 
     @GetMapping
-    public ResponseEntity<List<Airport>> findAll(){
+    public ResponseEntity<List<AirportResponseDto>> findAll(){
         List<Airport> airports = airportService.findAll();
 
-        return ResponseEntity.ok().body(airports);
+        List<AirportResponseDto> airportResponseDtoList = new ArrayList<>();
+
+        for(Airport airport : airports){
+            airportResponseDtoList.add(modelMapper.map(airport, AirportResponseDto.class));
+        }
+
+        return ResponseEntity.ok().body(airportResponseDtoList);
+    }
+
+    @GetMapping(value = "/{id}/airlines")
+    public ResponseEntity<List<AirlineAirportResponseDto>> findAirlines(@PathVariable Long id){
+        List<Airline> airlines = airportService.findAirlines(id);
+
+        List<AirlineAirportResponseDto> airlineAirportResponseDtoList = new ArrayList<>();
+
+        for(Airline airline : airlines){
+            airlineAirportResponseDtoList.add((modelMapper.map(airline, AirlineAirportResponseDto.class)));
+        }
+
+        return ResponseEntity.ok().body(airlineAirportResponseDtoList);
     }
 
     @PostMapping
@@ -42,11 +71,21 @@ public class AirportController {
         return ResponseEntity.created(endpoint).build();
     }
 
+    @PostMapping(value = "/{id}/airlines")
+    public ResponseEntity<Airport> addAirline(@PathVariable Long id, @RequestBody Airline obj){
+        Airport airport = airportService.addAirline(id, obj);
+        URI endpoint = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}/airlines").buildAndExpand(airport.getId()).toUri();
+
+        return ResponseEntity.created(endpoint).build();
+    }
+
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Airport> update(@PathVariable Long id, @RequestBody Airport obj){
+    public ResponseEntity<AirportResponseDto> update(@PathVariable Long id, @RequestBody Airport obj){
         Airport newAirport = airportService.update(id, obj);
 
-        return ResponseEntity.ok().body(newAirport);
+        AirportResponseDto airportResponseDto = modelMapper.map(newAirport, AirportResponseDto.class);
+
+        return ResponseEntity.ok().body(airportResponseDto);
     }
 
     @DeleteMapping(value = "/{id}")

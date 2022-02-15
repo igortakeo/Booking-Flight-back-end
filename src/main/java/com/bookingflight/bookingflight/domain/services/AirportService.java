@@ -1,5 +1,6 @@
 package com.bookingflight.bookingflight.domain.services;
 
+import com.bookingflight.bookingflight.domain.Airline;
 import com.bookingflight.bookingflight.domain.Airport;
 import com.bookingflight.bookingflight.domain.services.exceptions.ObjectAlreadyExistException;
 import com.bookingflight.bookingflight.domain.services.exceptions.ObjectNotFoundException;
@@ -42,6 +43,12 @@ public class AirportService {
     public Airport update(Long id, Airport obj) {
         Airport airport = findById(id);
 
+        Airport airportVerify = airportRepository.findByName(obj.getName());
+
+        if(airport.getId() != airportVerify.getId()){
+            throw new ObjectAlreadyExistException("Object already exist (change name)");
+        }
+
         airport.setName(obj.getName());
         airport.setStreet(obj.getStreet());
         airport.setNumber(obj.getNumber());
@@ -54,5 +61,17 @@ public class AirportService {
     public void delete(Long id) {
         findById(id);
         airportRepository.deleteById(id);
+    }
+
+    public List<Airline> findAirlines(Long id) {
+        Airport airport = findById(id);
+        return airport.getAirlines();
+    }
+
+    public Airport addAirline(Long id, Airline obj) {
+        Airport airport = findById(id);
+        airport.getAirlines().add(obj);
+
+        return airportRepository.save(airport);
     }
 }
