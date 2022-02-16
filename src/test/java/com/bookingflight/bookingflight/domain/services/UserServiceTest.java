@@ -5,30 +5,28 @@ import com.bookingflight.bookingflight.domain.services.exceptions.ObjectNotFound
 import com.bookingflight.bookingflight.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
 
+@DataJpaTest
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class UserServiceTest {
+
 
     UserService userService;
 
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-    @Mock
+    @Autowired
     UserRepository userRepository;
 
     @BeforeEach
-    public void intiMocks(){
-        MockitoAnnotations.initMocks(this);
-
-        this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    public void setUp(){
         this.userService = new UserService(userRepository);
     }
 
@@ -43,27 +41,44 @@ class UserServiceTest {
                 userPasswordTest.toString(),
                 true);
 
-        when(userRepository.findById(eq(1L))).thenReturn(Optional.of(userTest));
+        userService.create(userTest);
 
-        final User userReturnTest = userRepository.findById(1L).orElseThrow();
+        final User userReturnTest = userService.findById(userTest.getId());
 
         assertEquals(userTest.getId(), userReturnTest.getId());
         assertEquals(userTest.getName(), userReturnTest.getName());
         assertEquals(userTest.getUsername(), userReturnTest.getUsername());
         assertEquals(userTest.getPassword(), userReturnTest.getPassword());
         assertTrue(userReturnTest.isAdmin());
-        verify(userRepository, times(1)).findById(1L);
     }
 
     @Test
     void findByIdUserNotFound(){
-        when(userRepository.findById(eq(1L))).thenThrow(new ObjectNotFoundException("Object not found with Id = 1"));
 
-        assertThrows(ObjectNotFoundException.class, ()-> userRepository.findById(1L).orElseThrow());
+        assertThrows(ObjectNotFoundException.class, ()-> userService.findById(1L));
     }
 
     @Test
     void create() {
+
+        final String userPasswordTest = bCryptPasswordEncoder.encode("1234");
+
+        final User userTest = new User(
+                13L,
+                "nameTest",
+                "usernameTest",
+                userPasswordTest.toString(),
+                true);
+
+        User userReturn = userService.create(userTest);
+
+        User userCreated = userService.findById(userReturn.getId());
+
+        assertEquals(userReturn.getId(), userCreated.getId());
+        assertEquals(userReturn.getName(), userCreated.getName());
+        assertEquals(userReturn.getUsername(), userCreated.getUsername());
+        assertEquals(userReturn.getPassword(), userCreated.getPassword());
+        assertEquals(userReturn.isAdmin(), userCreated.isAdmin());
     }
 
     @Test
