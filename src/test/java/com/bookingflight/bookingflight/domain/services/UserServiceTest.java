@@ -1,6 +1,8 @@
 package com.bookingflight.bookingflight.domain.services;
 
 import com.bookingflight.bookingflight.domain.User;
+import com.bookingflight.bookingflight.domain.services.exceptions.ObjectAlreadyExistException;
+import com.bookingflight.bookingflight.domain.services.exceptions.ObjectNotAllowedToBeDeletedException;
 import com.bookingflight.bookingflight.domain.services.exceptions.ObjectNotFoundException;
 import com.bookingflight.bookingflight.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,8 +24,6 @@ class UserServiceTest {
 
 
     UserService userService;
-
-    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     UserRepository userRepository;
@@ -32,13 +35,12 @@ class UserServiceTest {
 
     @Test
     void findById() {
-        final String userPasswordTest = bCryptPasswordEncoder.encode("1234");
 
         final User userTest = new User(
                 1L,
                 "nameTest",
                 "usernameTest",
-                userPasswordTest.toString(),
+                "1234",
                 true);
 
         userService.create(userTest);
@@ -61,13 +63,11 @@ class UserServiceTest {
     @Test
     void create() {
 
-        final String userPasswordTest = bCryptPasswordEncoder.encode("1234");
-
         final User userTest = new User(
-                13L,
+                null,
                 "nameTest",
                 "usernameTest",
-                userPasswordTest.toString(),
+                "1234",
                 true);
 
         User userReturn = userService.create(userTest);
@@ -82,10 +82,92 @@ class UserServiceTest {
     }
 
     @Test
+    void createUserAlreadyExist(){
+
+        final User userTest = new User(
+                null,
+                "nameTest",
+                "usernameTest",
+                "1234",
+                true);
+
+        User userReturn = userService.create(userTest);
+
+        assertThrows(ObjectAlreadyExistException.class, ()-> userService.create(userTest));
+    }
+
+    @Test
     void delete() {
+
+        final User userTest = new User(
+                null,
+                "nameTest",
+                "usernameTest",
+                "1234",
+                true);
+
+        User userReturn = userService.create(userTest);
+
+        userService.delete(userReturn.getId());
+
+        assertThrows(ObjectNotFoundException.class, () -> userService.findById(userReturn.getId()));
+    }
+
+    @Test
+    void deleteUserNotAllowedToDelete(){
+
+        final User userTest = new User(
+                null,
+                "nameTest",
+                "igortakeo",
+                "1234",
+                true);
+
+        User userReturn = userService.create(userTest);
+
+        assertThrows(ObjectNotAllowedToBeDeletedException.class, () -> userService.delete(userReturn.getId()));
     }
 
     @Test
     void findAll() {
+
+        final User userTest1 = new User(
+                null,
+                "nameTest1",
+                "usernameTest1",
+                "1234",
+                true);
+
+        final User userTest2 = new User(
+                null,
+                "nameTest2",
+                "usernameTest2",
+                "12345",
+                false);
+
+
+        final User userTest3 = new User(
+                null,
+                "nameTest3",
+                "usernameTest3",
+                "654",
+                false);
+
+        final List<User> userTestList = new ArrayList<>(Arrays.asList(
+                userTest1,
+                userTest2,
+                userTest3
+        ));
+
+        for(User user : userTestList){
+            userService.create(user);
+        }
+
+        List<User> userReturnList = userService.findAll();
+
+
+        for(int i=0; i < userReturnList.size(); i++) {
+            assertEquals(userTestList.get(i), userReturnList.get(i));
+        }
     }
 }
