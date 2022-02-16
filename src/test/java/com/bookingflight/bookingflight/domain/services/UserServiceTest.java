@@ -61,27 +61,6 @@ class UserServiceTest {
     }
 
     @Test
-    void create() {
-
-        final User userTest = new User(
-                null,
-                "nameTest",
-                "usernameTest",
-                "1234",
-                true);
-
-        User userReturn = userService.create(userTest);
-
-        User userCreated = userService.findById(userReturn.getId());
-
-        assertEquals(userReturn.getId(), userCreated.getId());
-        assertEquals(userReturn.getName(), userCreated.getName());
-        assertEquals(userReturn.getUsername(), userCreated.getUsername());
-        assertEquals(userReturn.getPassword(), userCreated.getPassword());
-        assertEquals(userReturn.isAdmin(), userCreated.isAdmin());
-    }
-
-    @Test
     void createUserAlreadyExist(){
 
         final User userTest = new User(
@@ -165,6 +144,7 @@ class UserServiceTest {
 
         List<User> userReturnList = userService.findAll();
 
+        assertEquals(userTestList.size(), userReturnList.size());
 
         for(int i=0; i < userReturnList.size(); i++) {
             assertEquals(userTestList.get(i), userReturnList.get(i));

@@ -2,6 +2,7 @@ package com.bookingflight.bookingflight.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,10 +33,10 @@ public class Flight {
     private LocalDateTime date;
 
     @OneToMany(mappedBy = "flight")
-    private List<Booking> bookings;
+    private List<Booking> bookings = new ArrayList<>();
 
     @OneToMany(mappedBy = "flight")
-    private List<ClassFlight> classFlights;
+    private List<ClassFlight> classFlights = new ArrayList<>();
 
     public Flight() {
     }

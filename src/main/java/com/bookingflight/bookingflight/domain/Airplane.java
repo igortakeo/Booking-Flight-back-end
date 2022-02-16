@@ -1,6 +1,7 @@
 package com.bookingflight.bookingflight.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class Airplane {
     private Airline airline;
 
     @OneToMany(mappedBy = "airplane")
-    private List<Flight> flights;
+    private List<Flight> flights = new ArrayList<>();
 
     public Airplane() {
     }

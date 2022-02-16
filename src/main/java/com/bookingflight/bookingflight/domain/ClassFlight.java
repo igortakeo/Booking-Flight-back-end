@@ -2,6 +2,7 @@ package com.bookingflight.bookingflight.domain;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class ClassFlight {
     private Flight flight;
 
     @OneToMany(mappedBy = "classFlight")
-    private List<Booking> bookings;
+    private List<Booking> bookings = new ArrayList<>();
 
     public ClassFlight() {
     }

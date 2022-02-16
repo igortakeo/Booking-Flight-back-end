@@ -66,12 +66,16 @@ public class AirportService {
     public void delete(Long id) {
         Airport airport = findById(id);
 
-        for(Airline airline : airport.getAirlines()){
-            airline.getAirports().removeIf(a -> a.getId().equals(id));
+        if(!airport.getAirlines().isEmpty()) {
+            for (Airline airline : airport.getAirlines()) {
+                airline.getAirports().removeIf(a -> a.getId().equals(id));
+            }
         }
 
-        for(Flight flight : airport.getFlights()){
-            flight.setAirport(null);
+        if(!airport.getFlights().isEmpty()) {
+            for (Flight flight : airport.getFlights()) {
+                flight.setAirport(null);
+            }
         }
 
         airportRepository.deleteById(id);
