@@ -2,6 +2,7 @@ package com.bookingflight.bookingflight.domain.services;
 
 import com.bookingflight.bookingflight.domain.Airline;
 import com.bookingflight.bookingflight.domain.Airport;
+import com.bookingflight.bookingflight.domain.Flight;
 import com.bookingflight.bookingflight.domain.services.exceptions.ObjectAlreadyExistException;
 import com.bookingflight.bookingflight.domain.services.exceptions.ObjectNotFoundException;
 import com.bookingflight.bookingflight.repositories.AirlineRepository;
@@ -63,7 +64,16 @@ public class AirportService {
     }
 
     public void delete(Long id) {
-        findById(id);
+        Airport airport = findById(id);
+
+        for(Airline airline : airport.getAirlines()){
+            airline.getAirports().removeIf(a -> a.getId().equals(id));
+        }
+
+        for(Flight flight : airport.getFlights()){
+            flight.setAirport(null);
+        }
+
         airportRepository.deleteById(id);
     }
 
