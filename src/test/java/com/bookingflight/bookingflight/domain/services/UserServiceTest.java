@@ -59,7 +59,7 @@ class UserServiceTest {
     void findByIdUserNotFound(){
         when(userRepository.findById(eq(1L))).thenThrow(new ObjectNotFoundException("Object not found with Id = 1"));
 
-        assertThrows(ObjectNotFoundException.class, ()-> userRepository.findById(1L).orElseThrow());
+        assertThrows(ObjectNotFoundException.class, ()-> userRepository.findById(2L).orElseThrow());
     }
 
     @Test
