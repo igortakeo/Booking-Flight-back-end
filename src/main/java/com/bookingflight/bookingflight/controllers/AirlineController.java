@@ -1,13 +1,16 @@
 package com.bookingflight.bookingflight.controllers;
 
+import com.bookingflight.bookingflight.controllers.dto.AirlineResponseDto;
 import com.bookingflight.bookingflight.domain.Airline;
 import com.bookingflight.bookingflight.domain.services.AirlineService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,22 +19,33 @@ public class AirlineController {
 
     private final AirlineService airlineService;
 
-    public AirlineController(AirlineService airlineService) {
+    private final ModelMapper modelMapper;
+
+    public AirlineController(AirlineService airlineService, ModelMapper modelMapper) {
         this.airlineService = airlineService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping(value = "/{code}")
-    public ResponseEntity<Airline> findByCode(@PathVariable String code){
+    public ResponseEntity<AirlineResponseDto> findByCode(@PathVariable String code){
         Airline airline = airlineService.findByCode(code);
 
-        return ResponseEntity.ok().body(airline);
+        AirlineResponseDto airlineResponseDto = modelMapper.map(airline, AirlineResponseDto.class);
+
+        return ResponseEntity.ok().body(airlineResponseDto);
     }
 
     @GetMapping
-    public ResponseEntity<List<Airline>> findAll(){
+    public ResponseEntity<List<AirlineResponseDto>> findAll(){
         List<Airline> airlines = airlineService.findAll();
 
-        return ResponseEntity.ok().body(airlines);
+        List<AirlineResponseDto> airlineResponseDtoList = new ArrayList<>();
+
+        for(Airline airline : airlines){
+            airlineResponseDtoList.add(modelMapper.map(airline, AirlineResponseDto.class));
+        }
+
+        return ResponseEntity.ok().body(airlineResponseDtoList);
     }
 
     @PostMapping
@@ -43,10 +57,12 @@ public class AirlineController {
     }
 
     @PutMapping(value = "/{code}")
-    public ResponseEntity<Airline> update(@PathVariable String code, @RequestBody Airline obj){
+    public ResponseEntity<AirlineResponseDto> update(@PathVariable String code, @RequestBody Airline obj){
         Airline newAirline = airlineService.update(code, obj);
 
-        return ResponseEntity.ok().body(newAirline);
+        AirlineResponseDto airlineResponseDto = modelMapper.map(newAirline, AirlineResponseDto.class);
+
+        return ResponseEntity.ok().body(airlineResponseDto);
     }
 
     @DeleteMapping(value = "/{code}")
