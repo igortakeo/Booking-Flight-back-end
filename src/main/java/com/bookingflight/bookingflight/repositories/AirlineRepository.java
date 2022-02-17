@@ -14,4 +14,6 @@ public interface AirlineRepository extends JpaRepository<Airline, String> {
     Optional<Airline> findByCode(String code);
 
     void deleteByCode(String code);
+
+    Airline findByName(String name);
 }

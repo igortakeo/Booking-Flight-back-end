@@ -43,7 +43,12 @@ public class AirlineService {
     public Airline update(String code, Airline obj) {
         Airline newAirline = findByCode(code);
 
-        newAirline.setCode(obj.getCode());
+        Airline airlineVerify = airlineRepository.findByName(obj.getName());
+
+        if(airlineVerify != null && !newAirline.getCode().equals(airlineVerify.getCode())){
+            throw new ObjectAlreadyExistException("Object already exist (change name)");
+        }
+
         newAirline.setName(obj. getName());
         newAirline.setNumberPlanes(obj.getNumberPlanes());
         newAirline.setEmail(obj.getEmail());
@@ -55,12 +60,16 @@ public class AirlineService {
     public void delete(String code) {
         Airline airline = findByCode(code);
 
-        for(Airport airport : airline.getAirports()){
-            airport.getAirlines().removeIf(a -> a.getCode().equals(code));
+        if(!airline.getAirports().isEmpty()) {
+            for (Airport airport : airline.getAirports()) {
+                airport.getAirlines().removeIf(a -> a.getCode().equals(code));
+            }
         }
 
-        for(Airplane airplane : airline.getAirplanes()){
-            airplane.setAirline(null);
+        if(!airline.getAirplanes().isEmpty()) {
+            for (Airplane airplane : airline.getAirplanes()) {
+                airplane.setAirline(null);
+            }
         }
 
         airlineRepository.deleteByCode(code);

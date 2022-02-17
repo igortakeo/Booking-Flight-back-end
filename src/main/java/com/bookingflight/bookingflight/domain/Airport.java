@@ -1,6 +1,7 @@
 package com.bookingflight.bookingflight.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,10 +33,10 @@ public class Airport {
                     foreignKey = @ForeignKey(name = "fk_airport_airline_airport")) },
             inverseJoinColumns = { @JoinColumn(name = "airline_code",
                     foreignKey = @ForeignKey(name="fk_airport_airline_airline"))})
-    private List<Airline> airlines;
+    private List<Airline> airlines = new ArrayList<>();
 
     @OneToMany(mappedBy = "airport")
-    private List<Flight> flights;
+    private List<Flight> flights = new ArrayList<>();
 
     public Airport() {
     }

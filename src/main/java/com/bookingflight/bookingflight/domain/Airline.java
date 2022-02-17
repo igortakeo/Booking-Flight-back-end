@@ -1,6 +1,7 @@
 package com.bookingflight.bookingflight.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,7 +12,7 @@ public class Airline {
     @Column(name = "code", length = 20)
     private String code;
 
-    @Column(name = "name", nullable = false, length = 50)
+    @Column(name = "name", nullable = false, length = 50, unique = true)
     private String name;
 
     @Column(name = "number_planes")
@@ -24,10 +25,10 @@ public class Airline {
     private String telephone;
 
     @ManyToMany(mappedBy = "airlines")
-    private List<Airport> airports;
+    private List<Airport> airports = new ArrayList<>();
 
     @OneToMany(mappedBy = "airline")
-    private List<Airplane> airplanes;
+    private List<Airplane> airplanes = new ArrayList<>();
 
     public Airline() {
     }
@@ -94,6 +95,21 @@ public class Airline {
 
     public void setAirplanes(List<Airplane> airplanes) {
         this.airplanes = airplanes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Airline airline = (Airline) o;
+
+        return code != null ? code.equals(airline.code) : airline.code == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return code != null ? code.hashCode() : 0;
     }
 
     @Override
