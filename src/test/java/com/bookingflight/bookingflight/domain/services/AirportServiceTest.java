@@ -12,6 +12,10 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -83,6 +87,50 @@ class AirportServiceTest {
 
     @Test
     void findAll() {
+        final Airport airportTest1 = new Airport(
+                null,
+                "airportTest1",
+                "streetTest1",
+                10,
+                "cepTest",
+                "cityTest"
+        );
+
+        final Airport airportTest2 = new Airport(
+                null,
+                "airportTest2",
+                "streetTest2",
+                10,
+                "cepTest",
+                "cityTest"
+        );
+
+        final Airport airportTest3 = new Airport(
+                null,
+                "airportTest3",
+                "streetTest3",
+                10,
+                "cepTest",
+                "cityTest"
+        );
+
+        List<Airport> airportTestList= new ArrayList<>(Arrays.asList(
+                airportTest1,
+                airportTest2,
+                airportTest3
+        ));
+
+        for(Airport airport : airportTestList){
+            airportService.create(airport);
+        }
+
+        List<Airport> airportReturnList = airportService.findAll();
+
+        assertEquals(airportTestList.size(), airportReturnList.size());
+
+        for(int i=0; i<airportReturnList.size(); i++){
+            assertEquals(airportTestList.get(i), airportReturnList.get(i));
+        }
     }
 
     @Test

@@ -50,7 +50,7 @@ public class AirportService {
 
         Airport airportVerify = airportRepository.findByName(obj.getName());
 
-        if(airport.getId() != airportVerify.getId()){
+        if(airportVerify != null && !airport.getId().equals(airportVerify.getId())){
             throw new ObjectAlreadyExistException("Object already exist (change name)");
         }
 
