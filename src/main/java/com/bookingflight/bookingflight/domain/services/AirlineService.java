@@ -43,6 +43,8 @@ public class AirlineService {
     public Airline update(String code, Airline obj) {
         Airline newAirline = findByCode(code);
 
+        // check airline with same name
+
         newAirline.setName(obj. getName());
         newAirline.setNumberPlanes(obj.getNumberPlanes());
         newAirline.setEmail(obj.getEmail());
