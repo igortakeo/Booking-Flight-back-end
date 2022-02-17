@@ -43,7 +43,11 @@ public class AirlineService {
     public Airline update(String code, Airline obj) {
         Airline newAirline = findByCode(code);
 
-        // check airline with same name
+        Airline airlineVerify = airlineRepository.findByName(obj.getName());
+
+        if(airlineVerify != null && !newAirline.getCode().equals(airlineVerify.getCode())){
+            throw new ObjectAlreadyExistException("Object already exist (change name)");
+        }
 
         newAirline.setName(obj. getName());
         newAirline.setNumberPlanes(obj.getNumberPlanes());

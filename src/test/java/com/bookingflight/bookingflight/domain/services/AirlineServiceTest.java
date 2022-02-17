@@ -154,6 +154,39 @@ class AirlineServiceTest {
     }
 
     @Test
+    void updateAirlineAlreadyExist(){
+
+        final Airline airlineTest1 = new Airline(
+                "codeTest1",
+                "nameTest1",
+                10,
+                "test@gmail.com",
+                "79984133545"
+        );
+
+        final Airline airlineTest2 = new Airline(
+                "codeTest2",
+                "nameTest2",
+                112,
+                "test@gmail.com",
+                "79984133545"
+        );
+
+        final Airline airlineTestUpdate = new Airline(
+                "codeTest2",
+                "nameTest1",
+                112,
+                "test@gmail.com",
+                "79984133545"
+        );
+
+        airlineService.create(airlineTest1);
+        airlineService.create(airlineTest2);
+
+        assertThrows(ObjectAlreadyExistException.class, () -> airlineService.update(airlineTest2.getCode(), airlineTestUpdate));
+    }
+
+    @Test
     void delete() {
 
         final Airline airlineTest = new Airline(
