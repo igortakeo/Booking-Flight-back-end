@@ -1,5 +1,6 @@
 package com.bookingflight.bookingflight.domain.services;
 
+import com.bookingflight.bookingflight.domain.Airline;
 import com.bookingflight.bookingflight.domain.Airplane;
 import com.bookingflight.bookingflight.domain.Flight;
 import com.bookingflight.bookingflight.domain.services.exceptions.ObjectAlreadyExistException;
@@ -30,12 +31,13 @@ public class AirplaneService {
     }
 
     public Airplane create(Airplane obj) {
-        Optional<Airplane> airplane = airplaneRepository.findById(obj.getId());
+        Optional<Airplane> airplane = Optional.ofNullable(airplaneRepository.findByName(obj.getName()));
 
         if(airplane.isPresent()){
             throw new ObjectAlreadyExistException("Object already exist");
         }
 
+        obj.setId(null);
         return airplaneRepository.save(obj);
     }
 
@@ -63,9 +65,11 @@ public class AirplaneService {
             }
         }
 
+        Airline airline = airplane.getAirline();
 
-        // delete airline
-
+        if(airline != null) {
+            airline.getAirplanes().removeIf(a -> a.getId().equals(airplane.getId()));
+        }
 
         airplaneRepository.deleteById(airplane.getId());
     }
