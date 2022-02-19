@@ -26,7 +26,7 @@ public class Passenger {
     @Column(name = "telephone", length = 20)
     public String telephone;
 
-    @OneToMany(mappedBy = "passenger")
+    @OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
     public List<Booking> bookings = new ArrayList<>();
 
     public Passenger() {
