@@ -61,7 +61,7 @@ public class FlightController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<FlightResponseDto> update(@PathVariable Long id, @RequestBody Flight obj){
-        Flight flight = flightService.upate(id, obj);
+        Flight flight = flightService.update(id, obj);
 
         FlightResponseDto flightResponseDto = modelMapper.map(flight, FlightResponseDto.class);
 

@@ -46,7 +46,7 @@ public class FlightService {
         return flightRepository.save(obj);
     }
 
-    public Flight upate(Long id, Flight obj) {
+    public Flight update(Long id, Flight obj) {
         Flight flight = findById(id);
 
         Flight flightVerify = flightRepository.findSameFlight(
