@@ -32,10 +32,10 @@ public class Flight {
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
-    @OneToMany(mappedBy = "flight")
+    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "flight")
+    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
     private List<ClassFlight> classFlights = new ArrayList<>();
 
     public Flight() {
@@ -43,6 +43,15 @@ public class Flight {
 
     public Flight(Long id, String source, String target, LocalDateTime date) {
         this.id = id;
+        this.source = source;
+        this.target = target;
+        this.date = date;
+    }
+
+    public Flight(Long id, Airport airport, Airplane airplane, String source, String target, LocalDateTime date) {
+        this.id = id;
+        this.airport = airport;
+        this.airplane = airplane;
         this.source = source;
         this.target = target;
         this.date = date;
