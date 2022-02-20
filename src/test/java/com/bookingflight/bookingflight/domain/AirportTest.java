@@ -104,6 +104,7 @@ class AirportTest {
 
     @Test
     void getFlights() {
+
         final Flight flight1 = new Flight(
                 null,
                 "Sao Paulo",

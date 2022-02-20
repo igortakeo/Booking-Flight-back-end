@@ -48,6 +48,15 @@ public class Flight {
         this.date = date;
     }
 
+    public Flight(Long id, Airport airport, Airplane airplane, String source, String target, LocalDateTime date) {
+        this.id = id;
+        this.airport = airport;
+        this.airplane = airplane;
+        this.source = source;
+        this.target = target;
+        this.date = date;
+    }
+
     public Long getId() {
         return id;
     }
