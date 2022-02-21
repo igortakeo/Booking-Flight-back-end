@@ -1,7 +1,9 @@
 package com.bookingflight.bookingflight.controllers;
 
+import com.bookingflight.bookingflight.controllers.dto.PassengerResponseDto;
 import com.bookingflight.bookingflight.domain.Passenger;
 import com.bookingflight.bookingflight.domain.services.PassengerService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +18,20 @@ public class PassengerController {
 
     private final PassengerService passengerService;
 
-    public PassengerController(PassengerService passengerService) {
+    private final ModelMapper modelMapper;
+
+    public PassengerController(PassengerService passengerService, ModelMapper modelMapper) {
         this.passengerService = passengerService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping(value = "/{cpf}")
-    public ResponseEntity<Passenger> findByCpf(@PathVariable String cpf){
+    public ResponseEntity<PassengerResponseDto> findByCpf(@PathVariable String cpf){
         Passenger passenger = passengerService.findByCpf(cpf);
 
-        return ResponseEntity.ok().body(passenger);
+        PassengerResponseDto passengerResponseDto = modelMapper.map(passenger, PassengerResponseDto.class);
+
+        return ResponseEntity.ok().body(passengerResponseDto);
     }
 
     @GetMapping
