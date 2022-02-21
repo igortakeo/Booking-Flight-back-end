@@ -3,6 +3,7 @@ package com.bookingflight.bookingflight.domain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -63,5 +64,19 @@ class BookingTest {
         booking.setSeat(seat);
 
         assertEquals(seat, booking.getSeat());
+    }
+
+    @Test
+    void getClassFlight() {
+        final Flight flight = new Flight();
+        final ClassFlight classFlight = new ClassFlight(
+                ClassTravelEnum.BUSINESS,
+                new BigDecimal("240.00"),
+                flight
+        );
+
+        booking.setClassFlight(classFlight);
+
+        assertEquals(classFlight, booking.getClassFlight());
     }
 }
