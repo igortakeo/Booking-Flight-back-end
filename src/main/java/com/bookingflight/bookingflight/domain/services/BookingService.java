@@ -91,4 +91,8 @@ public class BookingService {
 
         bookingRepository.deleteByCpfAndId(cpf, id);
     }
+
+    public List<Booking> findAll() {
+        return bookingRepository.findAll();
+    }
 }

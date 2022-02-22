@@ -52,6 +52,19 @@ public class BookingController {
         return ResponseEntity.ok().body(bookingResponseDtoList);
     }
 
+    @GetMapping
+    public ResponseEntity<List<BookingResponseDto>> listAll(){
+        List<Booking> bookingList = bookingService.findAll();
+
+        List<BookingResponseDto> bookingResponseDtoList = new ArrayList<>();
+
+        for (Booking booking : bookingList){
+            bookingResponseDtoList.add(modelMapper.map(booking, BookingResponseDto.class));
+        }
+
+        return ResponseEntity.ok().body(bookingResponseDtoList);
+    }
+
     @PostMapping
     public ResponseEntity<BookingResponseDto> create(@RequestBody Booking obj){
         Booking booking = bookingService.create(obj);
