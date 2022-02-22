@@ -72,8 +72,6 @@ public class ClassFlight {
         return "ClassFlight{" +
                 "classTravel=" + classTravel +
                 ", price=" + price +
-                ", flights=" + flight +
-                ", booking=" + bookings +
                 '}';
     }
 }

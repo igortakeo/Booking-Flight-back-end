@@ -75,14 +75,19 @@ public class Booking {
         this.seat = seat;
     }
 
+    public ClassFlight getClassFlight() {
+        return classFlight;
+    }
+
+    public void setClassFlight(ClassFlight classFlight) {
+        this.classFlight = classFlight;
+    }
+
     @Override
     public String toString() {
         return "Booking{" +
-                "passenger=" + passenger +
-                ", flight=" + flight +
-                ", classTravel=" + classTravel +
+                "classTravel=" + classTravel +
                 ", seat=" + seat +
-                ", classFlight=" + classFlight +
                 '}';
     }
 }
