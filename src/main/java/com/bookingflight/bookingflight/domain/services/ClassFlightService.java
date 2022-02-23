@@ -3,6 +3,7 @@ package com.bookingflight.bookingflight.domain.services;
 import com.bookingflight.bookingflight.domain.ClassFlight;
 import com.bookingflight.bookingflight.domain.ClassTravelEnum;
 import com.bookingflight.bookingflight.domain.Flight;
+import com.bookingflight.bookingflight.domain.services.exceptions.ObjectAlreadyExistException;
 import com.bookingflight.bookingflight.domain.services.exceptions.ObjectNotFoundException;
 import com.bookingflight.bookingflight.domain.services.exceptions.ObjectWithIncorretInformationsException;
 import com.bookingflight.bookingflight.repositories.ClassFlightRepository;
@@ -46,7 +47,14 @@ public class ClassFlightService {
         Flight flight = flightService.findById(obj.getFlight().getId());
         obj.setFlight(flight);
 
-        findByClassTravelAndFlightId(obj.getClassTravel(), obj.getFlight().getId());
+        Optional<ClassFlight> classFlightVerify = classFlightRepository.findByClassTravelAndFlightId(
+                obj.getClassTravel(),
+                obj.getFlight().getId()
+        );
+
+        if(classFlightVerify.isPresent()){
+            throw new ObjectAlreadyExistException("Class FLight already exist");
+        }
 
         return classFlightRepository.save(obj);
     }
@@ -70,7 +78,6 @@ public class ClassFlightService {
 
         flight.getClassFlights().removeIf(
                 cf -> cf.getFlight().getId().equals(id) && cf.getClassTravel().equals(classTravel));
-
 
         classFlightRepository.delete(classFlight);
     }
