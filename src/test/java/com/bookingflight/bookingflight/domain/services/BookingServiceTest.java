@@ -10,8 +10,10 @@ import com.bookingflight.bookingflight.repositories.PassengerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
@@ -29,12 +31,16 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 class BookingServiceTest {
 
+    @InjectMocks
     BookingService bookingService;
 
+    @InjectMocks
     PassengerService passengerService;
 
+    @InjectMocks
     FlightService flightService;
 
+    @InjectMocks
     ClassFlightService classFlightService;
 
     @Mock
@@ -52,12 +58,6 @@ class BookingServiceTest {
     @BeforeEach
     public void initMocks(){
         MockitoAnnotations.initMocks(this);
-
-        this.passengerService = new PassengerService(passengerRepository);
-
-        this.flightService = new FlightService(flightRepository);
-
-        this.classFlightService = new ClassFlightService(classFlightRepository, flightService);
 
         this.bookingService = new BookingService(
                 bookingRepository,

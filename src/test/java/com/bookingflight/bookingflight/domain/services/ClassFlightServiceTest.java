@@ -9,6 +9,7 @@ import com.bookingflight.bookingflight.repositories.FlightRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -29,8 +30,10 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 class ClassFlightServiceTest {
 
+    @InjectMocks
     ClassFlightService classFlightService;
 
+    @InjectMocks
     FlightService flightService;
 
     @Mock
@@ -42,8 +45,6 @@ class ClassFlightServiceTest {
     @BeforeEach
     public void initMocks(){
         MockitoAnnotations.initMocks(this);
-
-        this.flightService = new FlightService(flightRepository);
 
         this.classFlightService = new ClassFlightService(
                 classFlightRepository,

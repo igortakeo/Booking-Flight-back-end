@@ -5,6 +5,7 @@ import com.bookingflight.bookingflight.domain.services.exceptions.ObjectNotFound
 import com.bookingflight.bookingflight.repositories.PassengerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -19,6 +20,7 @@ import static org.mockito.Mockito.*;
 
 class PassengerServiceTest {
 
+    @InjectMocks
     PassengerService passengerService;
 
     @Mock
@@ -27,8 +29,6 @@ class PassengerServiceTest {
     @BeforeEach
     public void initMocks(){
         MockitoAnnotations.initMocks(this);
-
-        this.passengerService = new PassengerService(passengerRepository);
     }
 
     @Test
