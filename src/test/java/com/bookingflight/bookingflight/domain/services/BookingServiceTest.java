@@ -57,7 +57,7 @@ class BookingServiceTest {
 
         this.flightService = new FlightService(flightRepository);
 
-        this.classFlightService = new ClassFlightService(classFlightRepository);
+        this.classFlightService = new ClassFlightService(classFlightRepository, flightService);
 
         this.bookingService = new BookingService(
                 bookingRepository,

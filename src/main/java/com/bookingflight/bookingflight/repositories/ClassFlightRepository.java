@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,4 +18,8 @@ public interface ClassFlightRepository extends JpaRepository<ClassFlight, ClassF
             "where cf.classTravel = :classTravel and cf.flight.id = :id")
     Optional<ClassFlight> findByClassTravelAndFlightId(ClassTravelEnum classTravel, Long id);
 
+    @Query("select cf " +
+            "from ClassFlight cf " +
+            "where cf.flight.id = :id")
+    Optional<List<ClassFlight>> findById(Long id);
 }

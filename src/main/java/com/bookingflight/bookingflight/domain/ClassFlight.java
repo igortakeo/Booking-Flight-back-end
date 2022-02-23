@@ -23,7 +23,7 @@ public class ClassFlight {
         foreignKey = @ForeignKey(name = "fk_class_flight_flight"))
     private Flight flight;
 
-    @OneToMany(mappedBy = "classFlight")
+    @OneToMany(mappedBy = "classFlight", cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
 
     public ClassFlight() {
