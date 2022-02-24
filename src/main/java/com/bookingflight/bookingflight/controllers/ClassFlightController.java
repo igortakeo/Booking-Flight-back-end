@@ -4,6 +4,8 @@ import com.bookingflight.bookingflight.controllers.dto.ClassFlightResponseDto;
 import com.bookingflight.bookingflight.domain.ClassFlight;
 import com.bookingflight.bookingflight.domain.ClassTravelEnum;
 import com.bookingflight.bookingflight.domain.services.ClassFlightService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/classflight")
+@Api(tags = "Class Flight")
 public class ClassFlightController {
 
     private final ClassFlightService classFlightService;
@@ -28,6 +31,7 @@ public class ClassFlightController {
         this.modelMapper = modelMapper;
     }
 
+    @ApiOperation(value = "Get class flight by class and flight id")
     @GetMapping(value = "/{id}/{classTravel}")
     public ResponseEntity<ClassFlightResponseDto> findByClassTravelAndFlightId(
             @PathVariable Long id,
@@ -40,6 +44,7 @@ public class ClassFlightController {
         return ResponseEntity.ok().body(classFlightResponseDto);
     }
 
+    @ApiOperation(value = "Get all class flight belongs to a flight")
     @GetMapping(value = "/{id}")
     public ResponseEntity<List<ClassFlightResponseDto>> findById(@PathVariable Long id){
         List<ClassFlight> classFlightList = classFlightService.findById(id);
@@ -53,6 +58,7 @@ public class ClassFlightController {
         return ResponseEntity.ok().body(classFlightResponseDtoList);
     }
 
+    @ApiOperation(value = "Get all class flight")
     @GetMapping
     public ResponseEntity<List<ClassFlightResponseDto>> findAll(){
         List<ClassFlight> classFlightList = classFlightService.findAll();
@@ -66,6 +72,7 @@ public class ClassFlightController {
         return ResponseEntity.ok().body(classFlightResponseDtoList);
     }
 
+    @ApiOperation(value = "List all class travel available")
     @GetMapping(value = "/class-travel")
     public ResponseEntity<List<ClassTravelEnum>> listClassTravel(){
         List<ClassTravelEnum> classTravelEnumList = new ArrayList<>(Arrays.asList(
@@ -78,6 +85,7 @@ public class ClassFlightController {
         return ResponseEntity.ok().body(classTravelEnumList);
     }
 
+    @ApiOperation(value = "Create new class flight")
     @PostMapping
     public ResponseEntity<ClassFlightResponseDto> create(@RequestBody ClassFlight obj){
         ClassFlight classFlight = classFlightService.create(obj);
@@ -89,6 +97,7 @@ public class ClassFlightController {
         return ResponseEntity.created(endpoint).build();
     }
 
+    @ApiOperation(value = "Update a class flight")
     @PutMapping(value = "/{id}/{classTravel}")
     public ResponseEntity<ClassFlightResponseDto> update(
             @PathVariable Long id,
@@ -102,6 +111,7 @@ public class ClassFlightController {
         return ResponseEntity.ok().body(classFlightResponseDto);
     }
 
+    @ApiOperation(value = "Delete a class flight")
     @DeleteMapping(value = "/{id}/{classTravel}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id, @PathVariable ClassTravelEnum classTravel){

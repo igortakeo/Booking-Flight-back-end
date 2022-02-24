@@ -5,6 +5,8 @@ import com.bookingflight.bookingflight.controllers.dto.AirportResponseDto;
 import com.bookingflight.bookingflight.domain.Airline;
 import com.bookingflight.bookingflight.domain.Airport;
 import com.bookingflight.bookingflight.domain.services.AirportService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/airport")
+@Api(tags = "Airport")
 public class AirportController {
 
     private final AirportService airportService;
@@ -28,6 +31,7 @@ public class AirportController {
         this.modelMapper = modelMapper;
     }
 
+    @ApiOperation(value = "Get an airport by id")
     @GetMapping(value = "/{id}")
     public ResponseEntity<AirportResponseDto> findById(@PathVariable Long id){
         Airport airport = airportService.findById(id);
@@ -37,6 +41,7 @@ public class AirportController {
         return ResponseEntity.ok().body(airportResponseDto);
     }
 
+    @ApiOperation(value = "Get all airports")
     @GetMapping
     public ResponseEntity<List<AirportResponseDto>> findAll(){
         List<Airport> airports = airportService.findAll();
@@ -50,6 +55,7 @@ public class AirportController {
         return ResponseEntity.ok().body(airportResponseDtoList);
     }
 
+    @ApiOperation(value = "Get all airlines that belongs to an airport")
     @GetMapping(value = "/{id}/airlines")
     public ResponseEntity<List<AirlineWithoutListResponseDto>> findAirlines(@PathVariable Long id){
         List<Airline> airlines = airportService.findAirlines(id);
@@ -63,6 +69,7 @@ public class AirportController {
         return ResponseEntity.ok().body(airlineAirportResponseDtoList);
     }
 
+    @ApiOperation(value = "Create new airport")
     @PostMapping
     public ResponseEntity<Airport> create(@RequestBody Airport obj){
         Airport newAirport = airportService.create(obj);
@@ -71,6 +78,7 @@ public class AirportController {
         return ResponseEntity.created(endpoint).build();
     }
 
+    @ApiOperation(value = "Add airline at an airport")
     @PostMapping(value = "/{id}/airlines/{code}")
     public ResponseEntity<Airport> addAirline(@PathVariable Long id, @PathVariable String code){
         Airport airport = airportService.addAirline(id, code);
@@ -79,6 +87,7 @@ public class AirportController {
         return ResponseEntity.created(endpoint).build();
     }
 
+    @ApiOperation(value = "Update an airport")
     @PutMapping(value = "/{id}")
     public ResponseEntity<AirportResponseDto> update(@PathVariable Long id, @RequestBody Airport obj){
         Airport newAirport = airportService.update(id, obj);
@@ -88,6 +97,7 @@ public class AirportController {
         return ResponseEntity.ok().body(airportResponseDto);
     }
 
+    @ApiOperation(value = "Delete an airport")
     @DeleteMapping(value = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id){

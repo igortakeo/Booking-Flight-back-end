@@ -3,6 +3,8 @@ package com.bookingflight.bookingflight.controllers;
 import com.bookingflight.bookingflight.controllers.dto.UserResponseDto;
 import com.bookingflight.bookingflight.domain.User;
 import com.bookingflight.bookingflight.domain.services.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/users")
 @PreAuthorize("hasRole('ADMIN')")
+@Api(tags = "User")
 public class UserController {
 
     private final UserService userService;
@@ -27,6 +30,7 @@ public class UserController {
         this.modelMapper = modelMapper;
     }
 
+    @ApiOperation(value = "Get an user by id")
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserResponseDto> findById(@PathVariable Long id){
         User user = userService.findById(id);
@@ -36,6 +40,7 @@ public class UserController {
         return ResponseEntity.ok().body(userResponseDto);
     }
 
+    @ApiOperation(value = "Get all users")
     @GetMapping
     public ResponseEntity<List<UserResponseDto>> findAll(){
         List<User> users = userService.findAll();
@@ -49,6 +54,7 @@ public class UserController {
         return ResponseEntity.ok().body(userResponseDtos);
     }
 
+    @ApiOperation(value = "Create new user")
     @PostMapping
     public ResponseEntity<User> create(@RequestBody User obj){
         User newUser = userService.create(obj);
@@ -57,6 +63,7 @@ public class UserController {
         return ResponseEntity.created(endpoint).build();
     }
 
+    @ApiOperation(value = "Create an admin")
     @PostMapping(value = "/admin")
     public ResponseEntity<User> createAdmin(@RequestBody User obj){
         obj.setAdmin(true);
@@ -66,6 +73,7 @@ public class UserController {
         return ResponseEntity.created(endpoint).build();
     }
 
+    @ApiOperation(value = "Delete an user")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         userService.delete(id);

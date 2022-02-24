@@ -3,6 +3,8 @@ package com.bookingflight.bookingflight.controllers;
 import com.bookingflight.bookingflight.controllers.dto.AirplaneResponseDto;
 import com.bookingflight.bookingflight.domain.Airplane;
 import com.bookingflight.bookingflight.domain.services.AirplaneService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/airplane")
+@Api(tags = "Airplane")
 public class AirplaneController {
 
     private final AirplaneService airplaneService;
@@ -26,6 +29,7 @@ public class AirplaneController {
         this.modelMapper = modelMapper;
     }
 
+    @ApiOperation(value = "Get an airplane by id")
     @GetMapping(value = "/{id}")
     public ResponseEntity<AirplaneResponseDto> findById(@PathVariable Long id){
         Airplane airplane = airplaneService.findById(id);
@@ -35,6 +39,7 @@ public class AirplaneController {
         return ResponseEntity.ok().body(airplaneResponseDto);
     }
 
+    @ApiOperation(value = "Get all airplanes")
     @GetMapping
     public ResponseEntity<List<AirplaneResponseDto>> findAll(){
         List<Airplane> airplaneList = airplaneService.findAll();
@@ -48,6 +53,7 @@ public class AirplaneController {
         return ResponseEntity.ok().body(airplaneResponseDtoList);
     }
 
+    @ApiOperation(value = "Create new airplane")
     @PostMapping
     public ResponseEntity<Airplane> create(@RequestBody Airplane obj){
         Airplane airplane  = airplaneService.create(obj);
@@ -56,6 +62,7 @@ public class AirplaneController {
         return ResponseEntity.created(endpoint).build();
     }
 
+    @ApiOperation(value = "Update an airplane")
     @PutMapping(value = "/{id}")
     public ResponseEntity<AirplaneResponseDto> update(@PathVariable Long id,@RequestBody Airplane obj){
         Airplane airplane = airplaneService.update(id, obj);
@@ -65,6 +72,7 @@ public class AirplaneController {
         return ResponseEntity.ok().body(airplaneResponseDto);
     }
 
+    @ApiOperation(value = "Delete an airplane")
     @DeleteMapping(value = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id){
