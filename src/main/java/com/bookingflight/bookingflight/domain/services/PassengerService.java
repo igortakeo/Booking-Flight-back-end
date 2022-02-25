@@ -30,7 +30,7 @@ public class PassengerService {
 
         return passengerRepository.findAll(PageRequest.of(
                 page.orElse(0),
-                2,
+                3,
                 Sort.Direction.ASC, sortBy.orElse("cpf")
         ));
     }

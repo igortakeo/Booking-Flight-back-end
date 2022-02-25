@@ -8,6 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.querydsl.QPageRequest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,7 +72,7 @@ class PassengerServiceTest {
         verify(passengerRepository, times(1)).findByCpf(any());
     }
 
-  /*  @Test
+    @Test
     void findAll() {
         final Passenger passengerTest1 = new Passenger(
                 "cpfTest1",
@@ -103,9 +107,15 @@ class PassengerServiceTest {
                 passengerTest3
         ));
 
-        when(passengerRepository.findAll()).thenReturn(passengerTestList);
+        when(passengerRepository.findAll(
+                eq(PageRequest.of(
+                        0,
+                        3,
+                        Sort.Direction.ASC, "cpf"
+                ))
+        )).thenReturn(new PageImpl<>(passengerTestList));
 
-        List<Passenger> passengerReturnList = passengerService.findAll();
+        List<Passenger> passengerReturnList = passengerService.findAll(Optional.of(0), Optional.of("cpf")).getContent();
 
         assertEquals(passengerTestList.size(), passengerReturnList.size());
 
@@ -113,8 +123,12 @@ class PassengerServiceTest {
             assertEquals(passengerTestList.get(i), passengerReturnList.get(i));
         }
 
-        verify(passengerRepository, times(1)).findAll();
-    }*/
+        verify(passengerRepository, times(1)).findAll(
+                eq(PageRequest.of(
+                    0,
+                    3,
+                    Sort.Direction.ASC, "cpf")));
+    }
 
 
     @Test
