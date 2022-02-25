@@ -6,13 +6,17 @@ import com.bookingflight.bookingflight.domain.services.PassengerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/passenger")
@@ -40,10 +44,22 @@ public class PassengerController {
 
     @ApiOperation(value = "Get all passengers")
     @GetMapping
-    public ResponseEntity<List<Passenger>> findAll(){
-        List<Passenger> passengerList = passengerService.findAll();
+    public ResponseEntity<Page<PassengerResponseDto>> findAll(
+            @RequestParam Optional<Integer> page,
+            @RequestParam Optional<String> sortBy
+    ){
+        Page<Passenger> passengerPage = passengerService.findAll(page, sortBy);
 
-        return ResponseEntity.ok().body(passengerList);
+        List<Passenger> passengerList = passengerPage.getContent();
+        List<PassengerResponseDto> passengerResponseDtos = new ArrayList<>();
+
+        for(Passenger passenger : passengerList){
+            passengerResponseDtos.add(modelMapper.map(passenger, PassengerResponseDto.class));
+        }
+
+        Page<PassengerResponseDto> passengerResponseDtoPage = new PageImpl<>(passengerResponseDtos);
+
+        return ResponseEntity.ok().body(passengerResponseDtoPage);
     }
 
     @ApiOperation(value = "Create new passenger")
@@ -57,10 +73,12 @@ public class PassengerController {
 
     @ApiOperation(value = "Update a passenger")
     @PutMapping(value = "/{cpf}")
-    public ResponseEntity<Passenger> update(@PathVariable String cpf, @RequestBody Passenger obj){
+    public ResponseEntity<PassengerResponseDto> update(@PathVariable String cpf, @RequestBody Passenger obj){
         Passenger passenger = passengerService.update(cpf, obj);
 
-        return ResponseEntity.ok().body(passenger);
+        PassengerResponseDto passengerResponseDto = modelMapper.map(passenger, PassengerResponseDto.class);
+
+        return ResponseEntity.ok().body(passengerResponseDto);
     }
 
     @ApiOperation(value = "Delete a passenger")

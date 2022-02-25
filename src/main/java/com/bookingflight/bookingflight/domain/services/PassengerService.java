@@ -3,6 +3,9 @@ package com.bookingflight.bookingflight.domain.services;
 import com.bookingflight.bookingflight.domain.Passenger;
 import com.bookingflight.bookingflight.domain.services.exceptions.ObjectNotFoundException;
 import com.bookingflight.bookingflight.repositories.PassengerRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +26,13 @@ public class PassengerService {
         return obj.orElseThrow(() -> new ObjectNotFoundException("Object not found with Id = " + cpf));
     }
 
-    public List<Passenger> findAll() {
-        return passengerRepository.findAll();
+    public Page<Passenger> findAll(Optional<Integer> page, Optional<String> sortBy) {
+
+        return passengerRepository.findAll(PageRequest.of(
+                page.orElse(0),
+                2,
+                Sort.Direction.ASC, sortBy.orElse("cpf")
+        ));
     }
 
     public Passenger create(Passenger obj) {
